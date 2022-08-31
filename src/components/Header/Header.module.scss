@@ -1,0 +1,30 @@
+@use "../../scss/" as *;
+
+.header {
+    @include flex(center, flex-end);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    padding: 24px 0 24px 0;
+
+    .headerSettings {
+        display: flex;
+    }
+
+    .headerLogin {
+        margin: 0 40px 0 0;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .headerSetting {
+
+        img {
+            max-width: 100%;
+        }
+    }
+}
