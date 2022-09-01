@@ -11,7 +11,7 @@
     backdrop-filter: blur(30px);
 
     .sidebarLogo {
-        margin: 0 0 64px 0;
+        margin: 40px 0 64px 0;
 
         img {
             max-width: 100%;
@@ -23,10 +23,6 @@
         flex-direction: column;
         margin: 0;
         padding: 0;
-
-        & .sidebarItem:hover {
-            background: darken($color: aqua, $amount: 10)
-        }
     }
     .sidebarItem {
         @include flex(center, center);

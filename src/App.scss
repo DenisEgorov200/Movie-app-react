@@ -50,3 +50,7 @@ iframe {
     background: rgba($color:$white, $alpha: 0.1);
   }
 }
+
+.swiper-button-disabled {
+  display: none;
+}

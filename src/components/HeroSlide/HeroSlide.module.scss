@@ -7,14 +7,130 @@
         height: 100vh;
         background-size: cover;
         background-repeat: no-repeat;
+
+        .sliderContainer {
+            width: 100%;
+            height: 100%;
+            @include flex(flex-start, center);
+            flex-direction: column;
+            padding: 0 0 0 236px;
+            color: $white;
+
+            .sliderGenre,
+            .sliderRating,
+            .sliderTitle,
+            .sliderDesc,
+            .sliderButton {
+                opacity: 0;
+                transform: translateY(-100px);
+                transition: transform .5s ease, opacity .5s ease;
+            }
+        }
+    
+        .sliderGenre {
+            padding: 4px 8px;
+            background: rgba(29, 29, 29, 0.5);
+            color: $color-genre;
+            border-radius: 0px 8px;
+            margin: 0 0 16px 0;
+        }
+    
+        .sliderRating {
+            margin: 0 0 16px 0;
+        }
+    
+        .sliderTitle {
+            max-width: 632px;
+            font-weight: 500;
+            font-size: 56px;
+            line-height: 64px;
+            margin: 0 0 16px 0;
+        }
+    
+        .sliderDesc {
+            max-width: 632px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 32px;
+            margin: 0 0 16px 0;
+        }
+
+        &.active > .sliderContainer {
+            .sliderGenre,
+            .sliderRating,
+            .sliderTitle,
+            .sliderDesc,
+            .sliderButton {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .sliderGenre {
+                transition-delay: 0.3s, 0.3s;
+            }
+    
+            .sliderRating {
+                transition-delay: 0.6s, 0.6s;
+            }
+    
+            .sliderTitle {
+                transition-delay: 0.9s, 0.9s;
+            }
+
+            .sliderDesc {
+                transition-delay: 1.2s, 1.2s;
+            }
+
+            .sliderButton {
+                transition-delay: 1.5s, 1.5s;
+            }
+        }
     }
 
-    .sliderContainer {
-        padding: 0 0 0 100px;
+    .sliderNavNext,
+    .sliderNavPrev {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px;
+        height: 50px;
+        z-index: 1;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: center;
+        background-image: url('../../assets/icon/Arrow.svg');
     }
 
-    .sliderGenre {
-        background: rgba(29, 29, 29, 0.5);
-        border-radius: 0px 8px;
+    .sliderNavPrev {
+        left: 95px;
+    }
+
+    .sliderNavNext {
+        right: 40px;
+        transform: rotate(180deg);
+    }
+
+    .sliderPagination {
+        @include flex(center, center);
+        position: absolute;
+        height: 10px;
+        z-index: 1;
+
+        .sliderPaginationBullet {
+            width: 8px;
+            height: 8px;   
+            background: rgba($color: $white, $alpha: 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            
+            &:not(:last-child) {
+                margin: 0 16px 0 0;
+            }
+
+            &.sliderPaginationBulletActive {
+                background: $white;
+            }
+        }
     }
 }
