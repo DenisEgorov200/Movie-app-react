@@ -1,7 +1,9 @@
 import React from 'react'
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
-import getMovies from '../../api/apiClient'
+import axios from 'axios'
+
+import apiConfig from '../../api/apiConfig'
 
 import Button from '../Button/Button'
 import HeroSliderData from './HeroSlideData'
@@ -20,9 +22,29 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay';
 
-const HeroSlide = () => {
+const headers = {
+    'Content-Type': 'application/json',
+    'X-API-KEY': apiConfig.apiKey,
+}
+
+const MoviesList = () => {
+    const [movieItems, setMovieItems] = useState([]);
+
     const sliderNavPrevRef = useRef(null);
     const sliderNavNextRef = useRef(null);
+
+    useEffect(() => {
+        axios.get(`${apiConfig.baseUrl}`, {
+            headers
+        })
+        .then(res => {
+            console.log(res);
+            setMovieItems(res.data.films.splice(1, 3))
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     return (
         <div className={styles.slider}>
@@ -51,10 +73,10 @@ const HeroSlide = () => {
                 }}
                 autoplay={{delay: 3000}}
             >
-                {HeroSliderData.map((value, index) => (
-                    <SwiperSlide key={index}>
+                {movieItems.map((movie) => (
+                    <SwiperSlide key={movie.filmId}>
                         {({ isActive=true }) => (
-                            <HeroSlideItem item={value} className={`${isActive ? `${styles.active}` : ''}`}/>
+                            <HeroSlideItem item={movie} className={`${isActive ? `${styles.active}` : ''}`}/>
                         )}
                     </SwiperSlide>
                 ))}
@@ -68,13 +90,13 @@ const HeroSlide = () => {
     )
 }
 
-export const HeroSlideItem = props => {
+const HeroSlideItem = props => {
     const item = props.item;
 
     return (
         <div
             className={`${styles.sliderSlide} ${props.className}`}
-            style={{backgroundImage: `url(${item.background})`}}
+            style={{backgroundImage: `url(${item.posterUrl})`}}
         >
             <div className={styles.sliderContainer}>
                 <div className={styles.sliderGenre}>
@@ -84,7 +106,7 @@ export const HeroSlideItem = props => {
                     {item.rating}
                 </div>
                 <div className={styles.sliderTitle}>
-                    {item.title}
+                    {item.nameEn}
                 </div>
                 <div className={styles.sliderDesc}>
                     {item.desc}
@@ -99,4 +121,4 @@ export const HeroSlideItem = props => {
     )  
 }
 
-export default HeroSlide;
+export default MoviesList;
