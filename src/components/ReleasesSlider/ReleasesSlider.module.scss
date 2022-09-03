@@ -1,0 +1,41 @@
+@use "../../scss/" as *;
+
+.releasesSlider {
+
+    .releasesSliderSwiper {
+
+    }
+
+    .releasesSliderSlide {
+        height: 440px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        cursor: pointer;
+    }
+
+    .releasesSliderContainer {
+        height: 100%;
+        padding: 0 24px;
+        @include flex(flex-start, flex-end);
+        flex-direction: column;
+    }
+
+    .releasesSliderGenre {
+        padding: 4px 8px;
+        background: rgba(29, 29, 29, 0.5);
+        color: $color-genre;
+        border-radius: 0px 8px;
+        margin: 0 0 16px 0;
+    }
+
+    .releasesSliderRating {
+        margin: 0 0 16px 0;
+    }
+
+    .releasesSliderTitle {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 32px;
+    }
+}

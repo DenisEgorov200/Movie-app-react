@@ -6,7 +6,7 @@
     top: 0;
     z-index: 3;
     height: 100vh;
-    width: 56px;
+    width: $sidebar-width;
     background: rgba($color: $black, $alpha: 0.1);
     backdrop-filter: blur(30px);
 

@@ -1,0 +1,20 @@
+@use "../../scss/" as *;
+
+.showMore {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 24px;
+
+    .showMoreImg {
+        @include flex(center, center);
+        margin: 0 0 0 8px;
+
+        img {
+            max-width: 100%;
+            transform: rotate(180deg);
+        }
+    }
+}

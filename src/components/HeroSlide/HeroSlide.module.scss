@@ -7,13 +7,14 @@
         height: 100vh;
         background-size: cover;
         background-repeat: no-repeat;
+        background-position: center;
 
         .sliderContainer {
             width: 100%;
             height: 100%;
             @include flex(flex-start, center);
             flex-direction: column;
-            padding: 0 0 0 236px;
+            padding: 0 0 0 180px;
             color: $white;
 
             .sliderGenre,
@@ -103,7 +104,7 @@
     }
 
     .sliderNavPrev {
-        left: 95px;
+        left: 39px;
     }
 
     .sliderNavNext {
@@ -115,6 +116,7 @@
         @include flex(center, center);
         position: absolute;
         height: 10px;
+        padding: 0 0 14px 0;
         z-index: 1;
 
         .sliderPaginationBullet {
