@@ -1,9 +1,8 @@
 import React from 'react'
 import { useRef, useState, useEffect } from 'react'
 
-import axios from 'axios'
-
-import apiConfig from '../../api/apiConfig'
+import tmdbApi, { category, movieType } from '../../api/tmdbApi';
+import apiConfig from '../../api/apiConfig';
 
 import Button from '../Button/Button'
 import HeroSliderData from './HeroSlideData'
@@ -22,11 +21,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay';
 
-const headers = {
-    'Content-Type': 'application/json',
-    'X-API-KEY': apiConfig.apiKey,
-}
-
 const MoviesList = () => {
     const [movieItems, setMovieItems] = useState([]);
 
@@ -34,16 +28,17 @@ const MoviesList = () => {
     const sliderNavNextRef = useRef(null);
 
     useEffect(() => {
-        axios.get(`${apiConfig.baseUrl}`, {
-            headers
-        })
-        .then(res => {
-            console.log(res);
-            setMovieItems(res.data.films.splice(1, 3))
-        })
-        .catch(err => {
-            console.log(err);
-        })
+        const getMovies = async () => {
+            const params = {page: 1}
+            try {
+                const response = await tmdbApi.getMoviesList(movieType.popular, {params});
+                setMovieItems(response.results.slice(0, 3));
+                console.log(response);
+            } catch {
+                console.log('error');
+            }
+        }
+        getMovies();
     }, [])
 
     return (
@@ -71,10 +66,10 @@ const MoviesList = () => {
                     bulletActiveClass: `${styles.sliderPaginationBulletActive}`,
                     type: 'bullets',
                 }}
-                autoplay={{delay: 3000}}
+                // autoplay={{delay: 3000}}
             >
                 {movieItems.map((movie) => (
-                    <SwiperSlide key={movie.filmId}>
+                    <SwiperSlide key={movie.id}>
                         {({ isActive=true }) => (
                             <HeroSlideItem item={movie} className={`${isActive ? `${styles.active}` : ''}`}/>
                         )}
@@ -93,23 +88,42 @@ const MoviesList = () => {
 const HeroSlideItem = props => {
     const item = props.item;
 
+    const background = apiConfig.originalImage(item.backdrop_path ? item.backdrop_path : item.poster_path);
+
+    const [genres, setGenres] = useState([]);
+
+    useEffect(() => {
+        const getGenres = async () => {
+            try {
+                const response = await tmdbApi.genres(category.movie, item.id);
+                setGenres(response.genres);
+                console.log(response);
+            } catch {
+                console.log('error');
+            }
+        }
+        getGenres();
+    }, [category])
+
     return (
         <div
             className={`${styles.sliderSlide} ${props.className}`}
-            style={{backgroundImage: `url(${item.posterUrl})`}}
+            style={{backgroundImage: `url(${background})`}}
         >
             <div className={styles.sliderContainer}>
                 <div className={styles.sliderGenre}>
-                    {item.genre}
+                    {genres.slice(0, 3).map((genre) => (
+                        <span key={genre.id}>{genre.name}</span>
+                    ))}
                 </div>
                 <div className={styles.sliderRating}>
                     {item.rating}
                 </div>
                 <div className={styles.sliderTitle}>
-                    {item.nameEn}
+                    {item.title}
                 </div>
                 <div className={styles.sliderDesc}>
-                    {item.desc}
+                    {item.overview}
                 </div>
                 <Button
                     className={styles.sliderButton} 
