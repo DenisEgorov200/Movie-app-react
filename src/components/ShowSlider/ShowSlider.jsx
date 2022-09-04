@@ -1,12 +1,10 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 
-import tmdbApi, { category, movieType } from '../../api/tmdbApi'
+import tmdbApi, { category, tvType } from '../../api/tmdbApi'
 import apiConfig from '../../api/apiConfig'
 
-import ReleasesSliderData from './ReleasesSliderData'
-
-import styles from './ReleasesSlider.module.scss'
+import styles from './ShowSlider.module.scss'
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
@@ -20,35 +18,34 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import 'swiper/css/autoplay'
 
-const ReleasesSlider = () => {
-    const [movieItems, setMovieItems] = useState([]);
+const ShowSlider = () => {
+    const [tvItems, setTvItems] = useState([]);
 
     useEffect(() => {
-        const getMovies = async () => {
+        const getTv = async () => {
             const params = {page: 1}
             try {
-                const response = await tmdbApi.getMoviesList(movieType.popular, {params});
-                setMovieItems(response.results.slice(0, 9));
+                const response = await tmdbApi.getTvList(tvType.popular, {params});
+                setTvItems(response.results.slice(0, 9));
                 console.log(response);
             } catch {
                 console.log('error');
             }
         }
-        getMovies();
+        getTv();
     }, [])
 
     return (
-        <div className={styles.releasesSlider}>
+        <div className={styles.showSlider}>
             <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
                 grabCursor={true}
-                slidesPerView={5}
+                slidesPerView={3}
                 // loop={true}
-                spaceBetween={16}
-                className={styles.releasesSliderSwiper}
+                className={styles.showSliderSwiper}
                 // autoplay={{delay: 3000}}
             >
-                {movieItems.map((item) => (
+                {tvItems.map((item) => (
                     <SwiperSlide key={item.id}>
                         <ReleasesSliderItem item={item}/>
                     </SwiperSlide>
@@ -68,7 +65,7 @@ const ReleasesSliderItem = props => {
     useEffect(() => {
         const getGenres = async () => {
             try {
-                const response = await tmdbApi.genres(category.movie, item.id);
+                const response = await tmdbApi.genres(category.tv, item.id);
                 setGenres(response.genres);
             } catch {
                 console.log('error');
@@ -79,24 +76,24 @@ const ReleasesSliderItem = props => {
     
     return (
         <div
-            className={`${styles.releasesSliderSlide}`}
+            className={`${styles.showSliderSlide}`}
             style={{backgroundImage: `url(${background})`}}
         >
-            <div className={styles.releasesSliderContainer}>
-                <div className={styles.releasesSliderGenre}>
+            <div className={styles.showSliderContainer}>
+                <div className={styles.showSliderGenre}>
                     {genres.slice(0, 1).map((genre) => (
                         <span key={genre.id}>{genre.name}</span>
                     ))}
                 </div>
-                <div className={styles.releasesSliderRating}>
+                <div className={styles.showSliderRating}>
                     {item.vote_average}
                 </div>
-                <div className={styles.releasesSliderTitle}>
-                    {item.title}
+                <div className={styles.showSliderTitle}>
+                    {item.name}
                 </div>
             </div>
         </div>
     )
 }
 
-export default ReleasesSlider
+export default ShowSlider

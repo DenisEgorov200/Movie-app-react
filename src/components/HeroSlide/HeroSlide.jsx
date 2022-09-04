@@ -97,7 +97,6 @@ const HeroSlideItem = props => {
             try {
                 const response = await tmdbApi.genres(category.movie, item.id);
                 setGenres(response.genres);
-                console.log(response);
             } catch {
                 console.log('error');
             }
@@ -117,7 +116,7 @@ const HeroSlideItem = props => {
                     ))}
                 </div>
                 <div className={styles.sliderRating}>
-                    {item.rating}
+                    {item.vote_average}
                 </div>
                 <div className={styles.sliderTitle}>
                     {item.title}

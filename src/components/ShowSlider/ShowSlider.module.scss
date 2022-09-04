@@ -1,10 +1,10 @@
 @use "../../scss/" as *;
 
-.releasesSlider {
+.showSlider {
 
-    .releasesSliderSlide {
+    .showSliderSlide {
         position: relative;
-        height: 440px;
+        height: 736px;
         width: 100%;
         background-size: cover;
         background-repeat: no-repeat;
@@ -22,7 +22,7 @@
         }
     }
 
-    .releasesSliderContainer {
+    .showSliderContainer {
         position: relative;
         height: 100%;
         padding: 0 24px;
@@ -31,7 +31,7 @@
         color: $white;
     }
 
-    .releasesSliderGenre {
+    .showSliderGenre {
         padding: 4px 8px;
         background: rgba(29, 29, 29, 0.5);
         color: $color-genre;
@@ -43,11 +43,11 @@
         }
     }
 
-    .releasesSliderRating {
+    .showSliderRating {
         margin: 0 0 16px 0;
     }
 
-    .releasesSliderTitle {
+    .showSliderTitle {
         font-weight: 500;
         font-size: 24px;
         line-height: 32px;
